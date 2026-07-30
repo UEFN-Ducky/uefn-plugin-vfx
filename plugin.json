@@ -1,0 +1,50 @@
+{
+  "id": "vfx",
+  "kind": "plugin",
+  "version": "1.0.11",
+  "label": "UEFN Niagara",
+  "description": "Niagara systems \u2014 discover, create, place, drive parameters. Bundles the vfx skill.",
+  "min_app_version": "1.0.0",
+  "default_enabled": true,
+  "secret_keys": [],
+  "contributes": {
+    "agent.tools": {
+      "category": "vfx",
+      "tools": [
+        "niagara_capabilities",
+        "list_niagara_systems",
+        "get_niagara_system_info",
+        "create_niagara_system",
+        "get_niagara_component_info",
+        "set_niagara_component_parameter",
+        "control_niagara_actor"
+      ],
+      "intent_pattern": "\\b(niagara|vfx|particle|emitter)\\b",
+      "plan_tools": [
+        "niagara_capabilities",
+        "list_niagara_systems",
+        "get_niagara_system_info",
+        "get_niagara_component_info"
+      ]
+    },
+    "walkthrough": {
+      "id": "vfx",
+      "title": "Niagara VFX tools ready",
+      "auto_start": "first_enable",
+      "settings_tab": "Store",
+      "steps": [
+        {
+          "target": "settings.store.root",
+          "title": "Niagara VFX tools ready",
+          "body": "Niagara MCP tools are live. Ask to find, create, place, or drive particle systems in the level.",
+          "advance": "next",
+          "mode": "rect"
+        }
+      ]
+    }
+  },
+  "backend": {
+    "entry": "backend",
+    "register": "register"
+  }
+}
