@@ -1,7 +1,0 @@
-deploy/
-*.ducky-plugin.zip
-__pycache__/
-.pytest_cache/
-.env
-.env.*
-.tmp-*

@@ -1,7 +1,7 @@
 {
   "id": "vfx",
   "kind": "plugin",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "label": "UEFN Niagara",
   "description": "Niagara systems \u2014 discover, create, place, drive parameters. Bundles the vfx skill.",
   "min_app_version": "1.0.0",
