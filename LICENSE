@@ -1,0 +1,147 @@
+Ducky Source-Available License v1.0
+
+Copyright (c) 2026 Mindful Path Company, LLC. All rights reserved.
+
+This license governs the software and documentation in this repository
+(the "Software"). By using, copying, modifying, or distributing the Software,
+you agree to these terms. This is a source-available license, not an OSI
+open-source license.
+
+## 1. Grant of rights
+
+Subject to the conditions and restrictions below, Mindful Path Company, LLC
+grants you a worldwide, royalty-free, non-exclusive, non-transferable license
+to:
+
+- **Read and study** the Software, and quote short excerpts for teaching or
+  discussion with attribution to Mindful Path Company, LLC.
+- **Run** official builds of the Software for any purpose, personal or
+  commercial (including shipping UEFN islands and operating your own Ducky OS
+  site).
+- **Modify** your own local copy of the Software.
+- **Fork** the Software publicly solely to prepare a contribution back to the
+  official repositories. Such forks must retain all copyright and license
+  notices and must be clearly marked as unofficial and not affiliated with
+  Mindful Path Company, LLC.
+
+## 2. Ownership
+
+All right, title, and interest in and to the Software, including all
+intellectual property rights, remain the exclusive property of Mindful Path
+Company, LLC. This license grants permission to use the Software under the
+terms stated here. It does not transfer ownership.
+
+## 3. Restrictions
+
+You may not, without prior written permission from Mindful Path Company, LLC:
+
+### 3.1 Redistribute
+Publish, host, mirror, share, or otherwise distribute copies of the Software
+(source or binary), modified or unmodified, except as expressly permitted in
+sections 1 and 4.
+
+### 3.2 Sell or sublicense
+Sell, rent, lease, sublicense, or otherwise commercially exploit the Software
+itself, or a derivative work based on the Software, as a product, CMS,
+platform, framework, or service.
+
+### 3.3 Reuse in other works
+Incorporate any part of the Software into another product, service, dataset,
+or model-training corpus.
+
+### 3.4 Rebrand or strip identity
+Remove, alter, or obscure the copyright notices, license text, or in-product
+attribution, or release a derivative work under a different name that
+misrepresents the origin of the code.
+
+### 3.5 Circumvent license enforcement
+Disable, bypass, or interfere with any license key, activation, telemetry, or
+update verification mechanism the Software uses to enforce these terms.
+
+### 3.6 Trademarks
+Use the marks "Ducky OS", "DuckyOS", "UEFN-Ducky", "UEFN Ducky", "Ducky", the
+Ducky OS logo, the UEFN-Ducky logo, the duck mascot, or related marks, except
+as necessary to refer factually to the Software.
+
+## 4. Permitted distribution (Ducky OS client services)
+
+This section applies only to Ducky OS (the platform core and its official
+plugins). You may:
+
+- Share copies within your organization, including employees and contractors
+  under confidentiality.
+- Run Ducky OS to build, host, customize, and maintain websites or
+  applications for paying clients, and deliver a site to that client under
+  this same license, where the service you sell is your labor, design, or
+  operations rather than the Software itself.
+
+Operating a "Ducky OS as a Service" or similar managed platform for third
+parties to run their own sites is not permitted under this section.
+
+Official builds, signed binaries, and the update channel for UEFN-Ducky are
+distributed exclusively through uefnducky.org and its designated mirrors.
+Official Ducky OS builds are distributed exclusively through duckyos.org and
+its designated mirrors.
+
+## 5. Your plugins, skills, sites, and islands
+
+Plugins, skills, sites, configurations, designs, UEFN islands, and other
+original works you create for use with the Software are yours and are not
+covered by this license, unless they incorporate substantial portions of the
+Software's own source code. You are free to sell, license, or distribute your
+own plugins and skills under whatever terms you choose.
+
+## 5a. Official first-party skills
+
+Official first-party skill packs and skill directories published by Mindful Path
+Company, LLC (including any `skills/` tree or `.ducky-skill-pack` shipped with
+a UEFN-Ducky desktop plugin) are licensed under this Ducky Source-Available
+License v1.0. That remains true even when the host plugin's own plugin code is
+distributed under a different license such as MIT. The plugin LICENSE does not
+relicense those skills.
+
+## 6. Contributions
+
+By submitting a contribution (including a pull request, patch, or other
+suggested change) to an official Mindful Path Company, LLC repository, you
+grant Mindful Path Company, LLC a perpetual, worldwide, irrevocable,
+royalty-free, transferable license to use, modify, distribute, and relicense
+that contribution as part of the Software, and you represent that you have
+the right to grant that license.
+
+## 7. Patent grant
+
+Mindful Path Company, LLC grants you a worldwide, royalty-free, non-exclusive
+patent license to make, use, and run the Software, limited to patent claims
+that are necessarily infringed by the Software as distributed. This grant
+terminates automatically if you initiate patent litigation alleging that the
+Software infringes a patent.
+
+## 8. No warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+
+## 9. Limitation of liability
+
+IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE FOR ANY
+CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR
+OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+## 10. Termination
+
+This license terminates automatically if you breach any of its terms. On
+termination, you must cease all use and distribution of the Software within
+thirty (30) days. Sections 2, 3.6, 8, and 9 survive termination.
+
+## 11. Commercial licensing
+
+For uses outside the scope of this license, including redistributing the
+Software, reselling it as a product, or offering it as a competing managed
+service, contact Mindful Path Company, LLC for a commercial license.
+
+---
+
+SPDX-License-Identifier: LicenseRef-Ducky-SAL-1.0

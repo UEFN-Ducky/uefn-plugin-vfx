@@ -1,5 +1,5 @@
 ---
-description: "VFX design principles for UEFN — what is and is not authorable, composing new effects by layering stock Niagara systems, timing envelopes, color as gameplay language, scale against the player, readability, and performance budgets"
+description: "VFX design principles for UEFN — what is and is not authorable, assembling effects from stock modules and layering systems, timing envelopes, color as gameplay language, scale against the player, readability, and performance budgets"
 metadata:
   label: "VFX design"
   default_enabled: false
@@ -10,32 +10,41 @@ metadata:
 
 ## What you can and cannot author (be honest)
 
-- **Cannot**: edit emitter/module graphs from Python — that lives in editor
-  C++ the tools never see. `create_niagara_system` makes EMPTY systems that
-  render nothing. Never pretend a parameter tweak rewrote an emitter.
-- **Can**: find stock systems, duplicate them, drive their **user
-  parameters**, place/activate/reset them, and **layer** several systems into
-  one composed effect. That combination covers most "make me a custom effect"
-  requests.
+- **Can**: assemble emitters from **stock** modules and renderers through MCP
+  (`add_niagara_emitter` — see `stock_module_assembly.md`), find and duplicate
+  existing systems, drive **user parameters**, place/activate/reset, and
+  **layer** several systems into one composed effect.
+- **Cannot**: author custom module-script graphs (`NiagaraGraph` node wiring is
+  not exposed) or run Python builders — a monolithic one crashed the editor.
+  Never pretend a parameter tweak rewrote an emitter.
+- `create_niagara_system` alone makes an EMPTY system that renders nothing;
+  emitters come from the assembly tools or the Niagara editor.
 
-## The composition workflow
+## Two workflows
+
+**Tune what exists** (fastest when something close already ships):
 
 ```
 list_niagara_systems({"search": "fire"})                 # find candidates
-get_niagara_system_info({"system_path": "..."})          # read user_parameters
+get_niagara_system_info({"system_path": "..."})          # read user parameters
 duplicate_asset({...})                                   # your own copy to tune
 spawn_actor({"asset_path": "...", "location": [...]})    # place it
 set_niagara_component_parameter({...})                   # tune (exact names only)
 control_niagara_actor({"actor_path": "...", "action": "reset"})   # see it fresh
-take_high_res_screenshot                                 # judge it visually
+validate_uefn_asset                                      # the proof; screenshot if it lands
 ```
 
-If the stock system exposes no useful parameters, say so and recommend
-authoring in the Niagara editor — don't stack parameter hacks.
+**Assemble a new one** when nothing fits: project meshes + materials, then one
+emitter per call, verifying in the viewport as you go. Link the knobs you want
+tunable to `User.*` while assembling — that is the only way they become user
+parameters later.
 
-## Layering — one effect is several systems
+## Layering — one effect is several layers
 
-A convincing effect is a stack, each layer its own placed system:
+A convincing effect is a stack. When you assemble the effect yourself, each
+layer is an **emitter** inside one system (one `add_niagara_emitter` call each,
+so it drops into the level as a single asset). When you compose from existing
+systems, each layer is its own placed actor.
 
 | Layer | Job | Lifetime |
 |-------|-----|----------|
@@ -45,9 +54,9 @@ A convincing effect is a stack, each layer its own placed system:
 | Debris/sparks | Fast physical bits flying out | 0.3–1 s |
 | Smoke/dissipation | The lingering exit | 1–3 s, fades last |
 
-Place layers within ~50 uu of a shared origin; `attach_actor` them to one
+Placed layers go within ~50 uu of a shared origin; `attach_actor` them to one
 parent prop so the whole effect moves as a unit. Skip layers a small effect
-doesn't need — a pickup sparkle is one system, an explosion is four.
+doesn't need — a pickup sparkle is one emitter, an explosion is four.
 
 ## Timing envelope
 
@@ -72,8 +81,7 @@ moment — constant energy, or players keep glancing at them.
 - Tune via color user parameters (`value_type: "color"`, `[r,g,b,a]`) when
   the system exposes them.
 - Contrast with the environment: a blue effect in a blue-lit ice zone
-  disappears; check with a screenshot from player distance, not the editor
-  close-up.
+  disappears; judge from player distance, not the editor close-up.
 
 ## Scale against the player (190 uu)
 
@@ -84,8 +92,8 @@ moment — constant energy, or players keep glancing at them.
   players will hate).
 - Landmark/setpiece effects (beacon, portal, storm): 500+ uu, visible across
   the zone — these double as landmarks (see leveldesign).
-- Verify with `get_actor_bounds` on the placed NiagaraActor and a screenshot
-  at player distance.
+- Verify with `get_actor_bounds` on the placed NiagaraActor — it is measurable
+  even when a capture will not flush.
 
 ## Readability and performance
 
@@ -97,8 +105,10 @@ moment — constant energy, or players keep glancing at them.
   large well-placed sprites + one light over hundreds of tiny particles.
 - Cap simultaneous layered effects; reuse placed actors (activate/deactivate
   via `control_niagara_actor`) instead of stacking duplicates.
-- After placing: `take_high_res_screenshot` from gameplay distance AND check
-  `get_editor_stats` if the scene already runs heavy.
+- After placing: check `get_editor_stats` if the scene already runs heavy. A
+  screenshot from gameplay distance is a bonus, not the verification — on dense
+  levels the capture never flushes, so ask the user to confirm the look instead
+  of retrying it (see `niagara_workflow.md`).
 
 ## Runtime triggering
 
