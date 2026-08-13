@@ -5,7 +5,7 @@ description: "Niagara VFX in UEFN — assemble systems from stock modules via MC
 license: Ducky Source-Available License v1.0
 metadata:
   label: "UEFN Niagara"
-  version: 6
+  version: 7
   author: UEFN-Ducky
   copyright: Copyright 2026 UEFN-Ducky
   allow_redistribute: false
@@ -27,7 +27,7 @@ same-turn multi — freezes UEFN. Details:
 | `ScaleSpriteSize` / `ScaleMeshSize` on an uninitialized size | set `Sprite Size` / `Mesh Scale` on V2 InitializeParticle; for constant size use **no** scale module |
 | Retrying "emitter is not open in this conversion session" | rebuild: `delete_asset` the system → recreate at the same path → one `add_niagara_emitter` → recover the orphaned actor |
 | `execute_python` for Niagara | the MCP tools, or the Niagara editor |
-| Batching / parallel editor calls | one tool call per step, wait for each result (`batch_commands`) |
+| Batching / parallel editor calls | one tool call per step, wait for each result (`skill_read_subskill("uefn", "batch_commands")`) |
 | `/Game/VFX`, `/Game/Materials`, … for new assets | `{content_root}<Effect>/...` from `get_project_info()` |
 | `/Engine/BasicShapes/*` as a particle mesh | `create_niagara_mesh` |
 | Component renderers | sprite / mesh / ribbon / light |

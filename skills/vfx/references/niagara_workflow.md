@@ -166,7 +166,7 @@ Renderer, `/Game/Effects/Niagara/Enum/ENiagaraCommon*`, etc.):
    they are not exposed and some conversion APIs hard-crash the editor.
 4. Fallback (automatic, with a visual-change warning):
    - Prefer an **already-valid in-plugin** Niagara system (same project), e.g.
-     another `/Roguelike/.../NS_*` that `validate_uefn_asset` marks `ok: true`.
+     another `{content_root}/VFX/NS_*` that `validate_uefn_asset` marks `ok: true`.
    - Or **reassemble** a compliant replacement with the assembly tools (stock
      modules + project meshes are publish-safe by construction).
    - Do **not** duplicate `/CRD_VFX_Spawner/...` or other `/Game/...` explosions
