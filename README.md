@@ -15,3 +15,7 @@ py scripts/build_zip.py
 Writes `deploy/vfx-<version>.ducky-plugin.zip` from `plugin.json` (scripts/ and
 deploy/ are not packed). Ship it with `./release/publish_plugin.sh vfx`, then
 update from **Settings → Store**.
+
+## License
+
+MIT. Copyright (c) 2026 Mindful Path Company, LLC. See [LICENSE](LICENSE).

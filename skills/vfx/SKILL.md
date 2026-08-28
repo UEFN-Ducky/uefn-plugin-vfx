@@ -2,16 +2,20 @@
 source_plugin_id: vfx
 name: vfx
 description: "Niagara VFX in UEFN — assemble systems from stock modules via MCP (emitters, renderers, project particle meshes), place them, drive user parameters; V2 InitializeParticle only, ParticleState or particles never die, never execute_python, never probe assets"
-license: Ducky Source-Available License v1.0
+license: MIT
 metadata:
   label: "UEFN Niagara"
-  version: 7
+  version: 9
   author: UEFN-Ducky
-  copyright: Copyright 2026 UEFN-Ducky
-  allow_redistribute: false
+  copyright: Copyright 2026 Mindful Path Company, LLC
+  allow_redistribute: true
 ---
 
 # UEFN VFX — Niagara systems
+
+**Epic UEFN MCP:** Settings → MCPs → **UEFN MCP (Epic)** (`unreal-mcp`). Bridge tools: `unreal__list_toolsets` → `unreal__describe_toolset` → `unreal__call_tool` (toolsets — not flat `unreal__create_entity`). Map: `skill_read_subskill("uefn", "epic_mcp")`. Ducky tools below stay for this skill's domain when Epic does not cover it.
+
+Optional Epic path: `NiagaraToolsets.NiagaraToolset_System` (+ Component / Assets / Info). Prefer Ducky Niagara tools when assembling via this skill.
 
 **CRITICAL — editor mutations are SERIAL:** one heavy MCP call → wait → next
 (`spawn_actor`, Niagara assemble tools, `save_current_level`). Never parallel /
@@ -32,6 +36,7 @@ same-turn multi — freezes UEFN. Details:
 | `/Engine/BasicShapes/*` as a particle mesh | `create_niagara_mesh` |
 | Component renderers | sprite / mesh / ribbon / light |
 | Guessing a module input name | the frozen table in `references/stock_module_assembly.md` |
+| Niagara / sprite / mesh particles as a night sky or star dome | `skill_read_subskill("materials", "starfield_recipe")` — ALU material only |
 
 Two layers, and the difference decides everything you do:
 
