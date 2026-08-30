@@ -1,7 +1,7 @@
 {
   "id": "vfx",
   "kind": "plugin",
-  "version": "1.0.19",
+  "version": "1.0.22",
   "label": "UEFN Niagara",
   "description": "Niagara systems \u2014 discover, assemble emitters/modules/renderers, create particle meshes, place, drive parameters. Bundles the vfx skill. Serial editor ops (one MCP call per turn).",
   "min_app_version": "1.0.0",

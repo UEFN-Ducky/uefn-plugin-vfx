@@ -257,7 +257,8 @@ script:
 3. Sun glow sprites → verify.
 4. **One** planet with `RotateAroundPoint` → verify.
 5. One orbit ring at a modest burst count (not 192 × 8 up front) → verify.
-6. Remaining planets and rings, one call each; then belt, dust, stars.
+6. Remaining planets and rings, one call each; then belt and dust.
+   **Sky stars are not Niagara** — `skill_read_subskill("materials", "starfield_recipe")`.
 
 Check every result. If a call errors, fix that emitter — do not queue more work
 on top of a broken system.
