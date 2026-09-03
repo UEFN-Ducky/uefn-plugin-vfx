@@ -5,10 +5,34 @@ from __future__ import annotations
 
 import json
 import zipfile
+import pathlib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = ROOT / "deploy"
+
+
+def _prune_superseded_zips(keep: pathlib.Path | None = None) -> None:
+    """Delete every built zip except the one just built.
+
+    deploy/ is gitignored build output; superseded zips are stale files that
+    pile up one per version bump and can be re-created by re-running this
+    script. Keeping them only invites installing an old build by mistake.
+    """
+    try:
+        zips = sorted(OUT_DIR.glob("*.ducky-plugin.zip"))
+    except OSError:
+        return
+    survivor = keep
+    if survivor is None and zips:
+        survivor = max(zips, key=lambda p: p.stat().st_mtime)
+    for z in zips:
+        try:
+            if survivor is not None and z.samefile(survivor):
+                continue
+            z.unlink()
+        except OSError:
+            pass
 SKIP_NAMES = {".git", "scripts", "deploy", ".gitignore", "README.md", "__pycache__"}
 SKIP_SUFFIX = {".pyc", ".pyo", ".zip", ".ducky-plugin"}
 
@@ -40,4 +64,4 @@ def build_zip(*, out: Path | None = None) -> Path:
 
 
 if __name__ == "__main__":
-    build_zip()
+    _prune_superseded_zips(build_zip())
