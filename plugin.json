@@ -1,9 +1,9 @@
 {
   "id": "vfx",
   "kind": "plugin",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "label": "UEFN Niagara",
-  "description": "Niagara systems \u2014 discover, assemble emitters/modules/renderers, create particle meshes, place, drive parameters. Bundles the vfx skill. Serial editor ops (one MCP call per turn).",
+  "description": "Niagara systems — discover, assemble emitters/modules/renderers, create particle meshes, place, drive parameters. Bundles the vfx skill. Serial editor ops (one MCP call per turn).",
   "min_app_version": "1.0.0",
   "default_enabled": true,
   "secret_keys": [],
@@ -44,7 +44,7 @@
         {
           "target": "settings.store.root",
           "title": "Niagara VFX tools ready",
-          "body": "Niagara MCP tools are live. Ask to find, place, and drive particle systems \u2014 or assemble a new one emitter by emitter with stock modules, renderers, and project particle meshes.",
+          "body": "Niagara MCP tools are live. Ask to find, place, and drive particle systems — or assemble a new one emitter by emitter with stock modules, renderers, and project particle meshes.",
           "advance": "next",
           "mode": "rect"
         }

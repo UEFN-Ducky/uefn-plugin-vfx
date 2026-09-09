@@ -5,7 +5,7 @@ description: "Niagara VFX in UEFN — assemble systems from stock modules via MC
 license: MIT
 metadata:
   label: "UEFN Niagara"
-  version: 9
+  version: 10
   author: UEFN-Ducky
   copyright: Copyright 2026 Mindful Path Company, LLC
   allow_redistribute: true
@@ -13,9 +13,7 @@ metadata:
 
 # UEFN VFX — Niagara systems
 
-**Epic UEFN MCP:** Settings → MCPs → **UEFN MCP (Epic)** (`unreal-mcp`). Bridge tools: `unreal__list_toolsets` → `unreal__describe_toolset` → `unreal__call_tool` (toolsets — not flat `unreal__create_entity`). Map: `skill_read_subskill("uefn", "epic_mcp")`. Ducky tools below stay for this skill's domain when Epic does not cover it.
-
-Optional Epic path: `NiagaraToolsets.NiagaraToolset_System` (+ Component / Assets / Info). Prefer Ducky Niagara tools when assembling via this skill.
+**Tool order (HARD):** 1) Official UEFN MCP first — `ducky_get_status`; when `epic_mcp_online` use nested `unreal__*` (`unreal__list_toolsets` → `unreal__describe_toolset` → `unreal__call_tool`; 5+ ops → ProgrammaticToolset `execute_tool_script`). 2) Ducky listener second (Epic-offline gaps + Ducky-only tools listed in this skill). 3) `execute_python` LAST — never a placement/layout path, even if Epic and listener already failed. Never spawn, move, or assign materials. Map: `skill_read_subskill("uefn", "epic_mcp")`.
 
 **CRITICAL — editor mutations are SERIAL:** one heavy MCP call → wait → next
 (`spawn_actor`, Niagara assemble tools, `save_current_level`). Never parallel /
@@ -30,7 +28,7 @@ same-turn multi — freezes UEFN. Details:
 | An emitter with a finite `Lifetime` and no `ParticleState` | `/Niagara/Modules/Update/Lifetime/ParticleState` **first** in `particle_update` — without it particles never die |
 | `ScaleSpriteSize` / `ScaleMeshSize` on an uninitialized size | set `Sprite Size` / `Mesh Scale` on V2 InitializeParticle; for constant size use **no** scale module |
 | Retrying "emitter is not open in this conversion session" | rebuild: `delete_asset` the system → recreate at the same path → one `add_niagara_emitter` → recover the orphaned actor |
-| `execute_python` for Niagara | the MCP tools, or the Niagara editor |
+| `execute_python` for Niagara | Epic `unreal__*` Niagara toolsets first, then Ducky `niagara_*` |
 | Batching / parallel editor calls | one tool call per step, wait for each result (`skill_read_subskill("uefn", "batch_commands")`) |
 | `/Game/VFX`, `/Game/Materials`, … for new assets | `{content_root}<Effect>/...` from `get_project_info()` |
 | `/Engine/BasicShapes/*` as a particle mesh | `create_niagara_mesh` |
@@ -42,9 +40,10 @@ Two layers, and the difference decides everything you do:
 
 | Layer | Available? | How |
 |-------|-----------|-----|
-| System / emitter / **stock module** / renderer stack | **Yes** | `add_niagara_emitter`, `add_niagara_module`, `add_niagara_renderer`, `set_niagara_module_parameter` |
+| Epic Niagara MCP toolsets | **Yes** when `epic_mcp_online` | `unreal__*` → `NiagaraToolsets.NiagaraToolset_System` (+ Component / Assets / Info) |
+| System / emitter / **stock module** / renderer stack | **Yes** (listener second) | `add_niagara_emitter`, `add_niagara_module`, `add_niagara_renderer`, `set_niagara_module_parameter` |
 | **Custom** module-script graphs (`NiagaraGraph` node wiring) | No | Hand-author in the Niagara editor; never probe for it |
-| `NiagaraToolset_*` classes | No (present in `dir(unreal)`, zero callable methods) | Ignore completely |
+| `dir(unreal)` `NiagaraToolset_*` Python classes | No callable methods | Ignore — that is not the Epic MCP path |
 
 So "make me a custom effect" is real work you can do — with **stock** modules
 from `/Niagara/Modules/...` and `/Niagara/DynamicInputs/...`, wired through MCP.
@@ -60,24 +59,27 @@ from `/Niagara/Modules/...` and `/Niagara/DynamicInputs/...`, wired through MCP.
 | **CHANGE** | `set_niagara_component_parameter`, `control_niagara_actor` |
 | **REPAIR** | `duplicate_asset`, `delete_asset`, `rename_asset`, `save_asset`, `open_asset_in_uefn` |
 
-Materials go through the **materials** MCP tools (`create_material`,
-`add_material_expression`, `create_material_instance`, …) — the VFX tools never
-wrap material editing.
+Materials go through Epic MaterialTools first, then the **materials** MCP tools
+(`create_material`, `add_material_expression`, `create_material_instance`, …) —
+the VFX tools never wrap material editing.
 
 ## Golden path (author a new effect)
 
 ```
-niagara_capabilities({})                         # once — require fx_converter: true
+ducky_get_status                                 # 0. Epic first when epic_mcp_online
+# unreal__* NiagaraToolsets.NiagaraToolset_System / ProgrammaticToolset for 5+
+niagara_capabilities({})                         # listener second — require fx_converter: true
 create_folder {content_root}<Effect>/{Niagara,Materials,MaterialInstances,Meshes}
-# materials MCP -> master materials + MIs
+# materials: Epic MaterialTools first, else materials MCP -> master + MIs
 create_niagara_mesh({"asset_name": "SM_Planet_Rocky", "shape": "sphere",
                      "folder": "{content_root}<Effect>/Meshes",
                      "material": "{content_root}<Effect>/MaterialInstances/MI_Planet_Rocky"})
 create_niagara_system({"asset_name": "NS_Solar", "folder": "{content_root}<Effect>/Niagara"})
 add_niagara_emitter({...})                       # ONE emitter — finalizes + saves
 validate_uefn_asset                              # require VALID, 0 errors
-spawn_actor({"asset_path": ".../NS_Solar"}) -> set_actor_label -> set_actor_folder
-                                                 -> control_niagara_actor reset
+# place: Epic ActorTools first; spawn_actor leftover only
+spawn_actor({"asset_path": ".../NS_Solar", "label": "...", "folder": "..."})
+control_niagara_actor reset
 save_current_level
 ```
 
