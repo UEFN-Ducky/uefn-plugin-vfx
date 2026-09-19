@@ -6,8 +6,6 @@ metadata:
   load_condition: "User wants to design/create a new visual effect, make an effect look better/cinematic, choose effect colors, or asks why an effect looks weak or hurts performance"
 ---
 
-**Tool order (HARD):** 1) Official UEFN MCP first (`ducky_get_status` → `epic_mcp_online` → nested `unreal__*`). 2) Ducky listener second. 3) `execute_python` LAST — never a placement path, even if Epic and listener failed. Map: `skill_read_subskill("uefn", "epic_mcp")`.
-
 # VFX design — compose, don't fake
 
 ## What you can and cannot author (be honest)
@@ -109,7 +107,7 @@ moment — constant energy, or players keep glancing at them.
   via `control_niagara_actor`) instead of stacking duplicates.
 - After placing: check `get_editor_stats` if the scene already runs heavy. A
   screenshot from gameplay distance is a bonus, not the verification — on dense
-  levels the capture never flushes, so ask the user to confirm the look instead
+  levels the capture never flushes, so judge the look from `get_niagara_system_info` instead
   of retrying it (see `niagara_workflow.md`).
 
 ## Runtime triggering

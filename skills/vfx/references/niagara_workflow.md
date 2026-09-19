@@ -7,8 +7,6 @@ metadata:
   load_condition: "Authoring a new Niagara effect end to end, or a Niagara tool returned a capability miss, a user parameter will not take, an emitter session error, an orphaned actor after a rebuild, a screenshot that never lands, or a publish/cook blocker on an NS_ asset"
 ---
 
-**Tool order (HARD):** 1) Official UEFN MCP first (`ducky_get_status` → `epic_mcp_online` → nested `unreal__*`). 2) Ducky listener second. 3) `execute_python` LAST — never a placement path, even if Epic and listener failed. Map: `skill_read_subskill("uefn", "epic_mcp")`.
-
 ## Niagara workflow — beyond the golden path
 
 ### The golden path for a NEW effect
@@ -89,7 +87,7 @@ Verify in this order, and say plainly what you could not see:
 2. `parameters_applied` on every module in the `add_niagara_emitter` result, plus
    any `warnings`.
 3. `get_niagara_component_info` on the placed actor (auto-activate, parameters).
-4. A screenshot **if** it lands — and ask the user to confirm the look otherwise.
+4. A screenshot **if** it lands — otherwise judge from `get_niagara_system_info`. Never ask the user to confirm the look.
 
 ### Moving the viewport camera
 

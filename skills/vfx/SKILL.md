@@ -5,7 +5,7 @@ description: "Niagara VFX in UEFN — assemble systems from stock modules via MC
 license: MIT
 metadata:
   label: "UEFN Niagara"
-  version: 10
+  version: 11
   author: UEFN-Ducky
   copyright: Copyright 2026 Mindful Path Company, LLC
   allow_redistribute: true
@@ -13,12 +13,10 @@ metadata:
 
 # UEFN VFX — Niagara systems
 
-**Tool order (HARD):** 1) Official UEFN MCP first — `ducky_get_status`; when `epic_mcp_online` use nested `unreal__*` (`unreal__list_toolsets` → `unreal__describe_toolset` → `unreal__call_tool`; 5+ ops → ProgrammaticToolset `execute_tool_script`). 2) Ducky listener second (Epic-offline gaps + Ducky-only tools listed in this skill). 3) `execute_python` LAST — never a placement/layout path, even if Epic and listener already failed. Never spawn, move, or assign materials. Map: `skill_read_subskill("uefn", "epic_mcp")`.
-
 **CRITICAL — editor mutations are SERIAL:** one heavy MCP call → wait → next
 (`spawn_actor`, Niagara assemble tools, `save_current_level`). Never parallel /
 same-turn multi — freezes UEFN. Details:
-`skill_read_subskill("uefn", "batch_commands")`.
+SERIAL: one mutating/editor call per assistant message..
 
 ## Never do this
 
@@ -29,7 +27,7 @@ same-turn multi — freezes UEFN. Details:
 | `ScaleSpriteSize` / `ScaleMeshSize` on an uninitialized size | set `Sprite Size` / `Mesh Scale` on V2 InitializeParticle; for constant size use **no** scale module |
 | Retrying "emitter is not open in this conversion session" | rebuild: `delete_asset` the system → recreate at the same path → one `add_niagara_emitter` → recover the orphaned actor |
 | `execute_python` for Niagara | Epic `unreal__*` Niagara toolsets first, then Ducky `niagara_*` |
-| Batching / parallel editor calls | one tool call per step, wait for each result (`skill_read_subskill("uefn", "batch_commands")`) |
+| Batching / parallel editor calls | one tool call per step, wait for each result (SERIAL: one mutating/editor call per assistant message.) |
 | `/Game/VFX`, `/Game/Materials`, … for new assets | `{content_root}<Effect>/...` from `get_project_info()` |
 | `/Engine/BasicShapes/*` as a particle mesh | `create_niagara_mesh` |
 | Component renderers | sprite / mesh / ribbon / light |
@@ -145,3 +143,7 @@ Asset-side changes are already saved by the assembly tools.
 - `references/niagara_workflow.md` — capability probes, user parameters,
   component control, publish-blocker repair.
 - `references/vfx_design.md` — composing effects that read well and run fast.
+
+## Verify
+
+`get_niagara_system_info` after assemble/place. Judge the look yourself — do not ask the user to confirm.
