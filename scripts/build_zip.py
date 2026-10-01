@@ -54,7 +54,8 @@ def build_zip(*, out: Path | None = None) -> Path:
             if not path.is_file():
                 continue
             rel_parts = path.relative_to(ROOT).parts
-            if not rel_parts or rel_parts[0] in SKIP_NAMES:
+            # Repo internals never ship: dot folders (.github CI, .pytest_cache test names) at any depth.
+            if not rel_parts or rel_parts[0] in SKIP_NAMES or any(p.startswith(".") for p in rel_parts):
                 continue
             if path.suffix.lower() in SKIP_SUFFIX or path.name.startswith("."):
                 continue

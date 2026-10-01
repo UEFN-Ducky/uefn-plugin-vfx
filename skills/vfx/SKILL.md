@@ -5,7 +5,7 @@ description: "Niagara VFX in UEFN — assemble systems from stock modules via MC
 license: MIT
 metadata:
   label: "UEFN Niagara"
-  version: 11
+  version: 12
   author: UEFN-Ducky
   copyright: Copyright 2026 Mindful Path Company, LLC
   allow_redistribute: true
@@ -147,3 +147,13 @@ Asset-side changes are already saved by the assembly tools.
 ## Verify
 
 `get_niagara_system_info` after assemble/place. Judge the look yourself — do not ask the user to confirm.
+
+## Epic Niagara toolsets (42.30)
+
+Four Niagara toolsets when `epic_mcp_online` (uefn `epic_toolsets` for tool names):
+`NiagaraToolsets.NiagaraToolset_Info` (enum lookups, guidance — call first),
+`NiagaraToolset_System` (systems, emitters, modules, schema, topology, data),
+`NiagaraToolset_Component` (Niagara components on actors, runtime user-variable
+overrides), `NiagaraToolset_Assets` (asset-registry discovery and metadata of
+Niagara scripts). 42.30 fixed the Hexylvania Alight Torch 02 flame not showing in
+Performance Mode.
