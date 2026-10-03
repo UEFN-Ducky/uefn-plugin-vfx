@@ -61,6 +61,7 @@ def build_zip(*, out: Path | None = None) -> Path:
                 continue
             zf.write(path, arcname="/".join(rel_parts))
     print(f"wrote {dest} ({dest.stat().st_size} bytes)")
+    _prune_superseded_zips(dest)
     return dest
 
 
